@@ -1,0 +1,8 @@
+version: "3"
+services:
+  five-stars:
+    build: .
+    env_file: ./.env
+    image: desertmark/five-stars
+    ports:
+      - "4000:4000"
