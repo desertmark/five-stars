@@ -29,14 +29,16 @@
   },
   "homepage": "https://github.com/desertmark/five-stars#readme",
   "dependencies": {
+    "@azure/cosmos": "^3.15.0",
     "apollo-server": "^3.6.0",
     "class-validator": "^0.13.2",
+    "dotenv": "^10.0.0",
     "graphql": "^15.8.0",
     "inversify": "^6.0.1",
+    "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
-    "uuid": "^8.3.2",
-    "module-alias": "^2.2.2"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.5",
