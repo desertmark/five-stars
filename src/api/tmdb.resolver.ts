@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Query, Resolver } from "type-graphql";
 import { TmdbDal } from "@dal/tmdb.dal";
 import { TvShow, TvShowSearchResult } from "@models/tv-show.model";
 import { Season } from "@models/season.model";
@@ -11,7 +11,8 @@ export class TmdbResolver {
   }
   private tmbdb: TmdbDal;
 
-  @Query((returns) => TvShowSearchResult)
+  @Authorized()
+  @Query((returns) => TvShowSearchResult, { description: "Search a tv show" })
   async searchTv(
     @Arg("query") query: string,
     @Arg("page") page: number
@@ -22,8 +23,11 @@ export class TmdbResolver {
       console.error("Failed to search tv show", error);
     }
   }
-
-  @Query((returns) => TvShow)
+  
+  @Authorized()
+  @Query((returns) => TvShow, {
+    description: "Gets a tv show with the given Id",
+  })
   async getTvById(@Arg("tvShowId") tvShowId: number): Promise<TvShow> {
     try {
       return await this.tmbdb.getTvById(tvShowId);
@@ -31,8 +35,11 @@ export class TmdbResolver {
       console.error("Failed to search tv show", error);
     }
   }
-
-  @Query((returns) => Season)
+  
+  @Authorized()
+  @Query((returns) => Season, {
+    description: "Gets the tv show`s season infor",
+  })
   async getSeason(
     @Arg("tvShowId") tvShowId: number,
     @Arg("seasonNumber") seasonNumber: number

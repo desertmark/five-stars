@@ -23,10 +23,7 @@ class RequestListener implements GraphQLRequestListener {
 
   private getAccessToken(requestContext: GraphQLRequestContext) {
     try {
-      return requestContext.request.http.headers
-        .get("authorization")
-        ?.toLowerCase()
-        ?.slice(7);
+      return requestContext.request.http.headers.get("authorization")?.slice(7);
     } catch (error) {
       console.log("Failed to get access token", error);
     }
