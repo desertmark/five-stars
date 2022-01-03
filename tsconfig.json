@@ -15,7 +15,8 @@
       "@models/*": ["models/*"],
       "@api/*": ["api/*"],
       "@config/*": ["config/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@dal/*": ["dal/*"]
     }
   },
   "include": ["./src"]

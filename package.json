@@ -2,11 +2,11 @@
   "name": "five-stars",
   "version": "0.0.0",
   "description": "Movies and TV shows backend",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon ./src/index.ts",
-    "dist": "node ./dist/index.js",
+    "start": "nodemon ./src/main.ts",
+    "dist": "node ./dist/main.js",
     "docker:build": "docker-compose build --progress plain",
     "docker:start": "docker-compose up"
   },
@@ -31,9 +31,11 @@
   "dependencies": {
     "@azure/cosmos": "^3.15.0",
     "apollo-server": "^3.6.0",
+    "axios": "^0.24.0",
     "class-validator": "^0.13.2",
     "dotenv": "^10.0.0",
     "graphql": "^15.8.0",
+    "graphql-scalars": "^1.14.1",
     "inversify": "^6.0.1",
     "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
@@ -50,6 +52,7 @@
     "@models": "src/models",
     "@api": "src/api",
     "@config": "src/config",
-    "@services": "src/services"
+    "@services": "src/services",
+    "@dal": "src/dal"
   }
 }

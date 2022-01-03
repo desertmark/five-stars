@@ -10,10 +10,12 @@ export interface IConfig {
   connectionString: string;
   dbName: string;
   tmdbKey: string;
+  tmbdbUrl: string;
 }
 
 export const config: IConfig = {
   connectionString: COSMOS_CONNECTION_STRING,
   dbName: "fiveStars",
   tmdbKey: TMDB_KEY,
+  tmbdbUrl: "https://api.themoviedb.org/3",
 };
