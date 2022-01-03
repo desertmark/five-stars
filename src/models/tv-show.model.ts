@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import { SearchResult } from "./search-result";
 
 @ObjectType()
 export class TvShowResult {
@@ -51,16 +52,4 @@ export class TvShow extends TvShowResult {
 }
 
 @ObjectType()
-export class TvShowSearchResult {
-  constructor(json: any) {
-    if (json) {
-      this.page = json.page || 1;
-      this.results =
-        json.results?.map((tvShow) => new TvShowResult(tvShow)) || [];
-    }
-  }
-  @Field()
-  page: number;
-  @Field((returns) => [TvShowResult])
-  results: TvShowResult[];
-}
+export class TvShowSearchResult extends SearchResult(TvShowResult) {}
