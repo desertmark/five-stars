@@ -16,18 +16,13 @@ import { BaseClient } from "openid-client";
 import { AuthResolver } from "@api/auth.resolver";
 import { AuthDal } from "@dal/auth.dal";
 import { UserInfo, UserInfoManager } from "@models/user-info.model";
+import { WatchListResolver } from "@api/watch-list.resolver";
+import { WatchListDal } from "@dal/watch-list.dal";
 
 export abstract class Context {
   headers: Headers;
   accessToken: string;
   requestId: string;
-}
-
-@injectable()
-export class Logger {
-  log(...args) {
-    console.log(...args);
-  }
 }
 
 export async function createContainer(): Promise<Container> {
@@ -47,9 +42,12 @@ export async function createContainer(): Promise<Container> {
     .bind<string>("kcPublicKey")
     .toConstantValue(await publicKeyFactory(config));
   container.bind<UserInfoManager>(UserInfoManager).toSelf().inSingletonScope();
+
   // DAL
   container.bind<AuthDal>(AuthDal).toSelf().inRequestScope();
   container.bind<TmdbDal>(TmdbDal).toSelf().inRequestScope();
+  container.bind<WatchListDal>(WatchListDal).toSelf().inRequestScope();
+
   // Resolvers
   container
     .bind<ApiVersionResolver>(ApiVersionResolver)
@@ -57,6 +55,10 @@ export async function createContainer(): Promise<Container> {
     .inRequestScope();
   container.bind<TmdbResolver>(TmdbResolver).toSelf().inRequestScope();
   container.bind<AuthResolver>(AuthResolver).toSelf().inRequestScope();
+  container
+    .bind<WatchListResolver>(WatchListResolver)
+    .toSelf()
+    .inRequestScope();
   return container;
 }
 export default createContainer;

@@ -7,10 +7,16 @@ import { Container } from "inversify";
 import { GraphQLSchema } from "graphql";
 import { AuthDal } from "@dal/auth.dal";
 import { UserInfo, UserInfoManager } from "@models/user-info.model";
+import { WatchListResolver } from "@api/watch-list.resolver";
 
 export const schema = async (container: Container): Promise<GraphQLSchema> =>
   buildSchemaSync({
-    resolvers: [ApiVersionResolver, TmdbResolver, AuthResolver],
+    resolvers: [
+      ApiVersionResolver,
+      TmdbResolver,
+      AuthResolver,
+      WatchListResolver,
+    ],
     container: ({ context }: ResolverData<Context>) => {
       container.rebind("context").toConstantValue(context);
       return container;

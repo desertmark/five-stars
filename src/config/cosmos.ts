@@ -5,13 +5,19 @@ import { IConfig } from "./config";
 @injectable()
 export class CosmosManager {
   private client: CosmosClient;
+  public watchLists: Container;
+
   constructor(@inject("config") private config: IConfig) {
     this.client = new CosmosClient(this.config.connectionString);
   }
 
   async init() {
     await this.createDatabase(this.config.dbName);
-    await this.createContainer(this.config.dbName, "TestContainer", "/pk");
+    this.watchLists = await this.createContainer(
+      this.config.dbName,
+      "WatchLists",
+      "/pk"
+    );
   }
 
   async createDatabase(databaseId: string): Promise<Database> {
