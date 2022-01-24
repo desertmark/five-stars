@@ -1,17 +1,23 @@
-import { CosmosClient } from "@azure/cosmos";
-import { config as dotenv } from "dotenv";
-import path from 'path';
-const rootPath = path.resolve(__dirname, "../");
-const envPath = path.resolve(rootPath, ".env");
-dotenv({ path: envPath });
+require("module-alias/register");
+import "reflect-metadata";
+import { ApolloServer } from "apollo-server";
+import { schema as buildSchema } from "@config/schema";
+import { RequestPlugin } from "@config/plugins";
+import { createContainer } from "@config/container";
+import { CosmosManager } from "@config/cosmos";
 
-const client = new CosmosClient(process.env.COSMOS_CONNECTION_STRING);
-
-
-client.databases.createIfNotExists({
-  id: 'test'
-}).then(database => {
-  console.log('db created', database);
-}).catch(error => {
-  console.log(error);
-})
+(async () => {
+  try {
+    const container = await createContainer();
+    const schema = await buildSchema(container);
+    const server = new ApolloServer({
+      schema,
+      plugins: [new RequestPlugin()],
+    });
+    await container.get(CosmosManager).init();
+    const { url } = await server.listen({ port: 4001 });
+    console.log(`🚀  Server ready at ${url}`);
+  } catch (error) {
+    console.error("Failed to start server", error);
+  }
+})();
