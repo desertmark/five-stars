@@ -12,12 +12,15 @@ export class CosmosManager {
   }
 
   async init() {
+    console.log('Attempting to init DB...');
     await this.createDatabase(this.config.dbName);
+    console.log('Attempting to init. Loading containers...');
     this.watchLists = await this.createContainer(
       this.config.dbName,
       "WatchLists",
       "/pk"
     );
+    console.log('DB initialized', this);
   }
 
   async createDatabase(databaseId: string): Promise<Database> {
@@ -29,6 +32,7 @@ export class CosmosManager {
       return database;
     } catch (error) {
       console.error("Failed to create DB", databaseId, error);
+      throw error;
     }
   }
 
@@ -53,6 +57,7 @@ export class CosmosManager {
         containerId,
         error
       );
+      throw error;
     }
   }
 }

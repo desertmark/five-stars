@@ -20,7 +20,7 @@ export class TmdbResolver {
     try {
       return await this.tmbdb.searchTv(query, page);
     } catch (error) {
-      console.error("Failed to search tv show", JSON.stringify(error.response.data.errors));
+      console.error("Failed to search tv show", error);
     }
   }
   
@@ -38,7 +38,7 @@ export class TmdbResolver {
   
   @Authorized()
   @Query((returns) => Season, {
-    description: "Gets the tv show`s season infor",
+    description: "Gets the tv show`s season information",
   })
   async getSeason(
     @Arg("tvShowId") tvShowId: number,

@@ -60,7 +60,7 @@ export async function openIdClientFactory(
   } catch (error) {
     const msg =
       "Error on openIdClientFactory: Failed to create openid-client. Verify auth configurations are set or set correctly.";
-    console.error(msg, error);
+    console.error(msg, error, config);
     throw Error(error);
   }
 }

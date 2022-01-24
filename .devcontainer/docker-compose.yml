@@ -24,6 +24,7 @@ services:
 
       # Uncomment the next line to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker-compose for details.
       - /var/run/docker.sock:/var/run/docker.sock 
+    network_mode: host
 
     # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
     # cap_add:
@@ -46,11 +47,11 @@ services:
       - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
       - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=true
       - AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=192.168.1.135
-    deploy:
-      resources:
-        limits:
-          cpus: "2.0"
-          memory: 3g
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "2.0"
+    #       memory: 3g
 
   keycloak:
     image: jboss/keycloak
