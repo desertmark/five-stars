@@ -16,4 +16,4 @@ FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-${VARIANT}
 # RUN su node -c "npm install -g <your-package-list -here>"
 
 
-RUN git config --global user.email "fernando.asulay@gmail.com" && git config --global user.name "Fernando Asulay"
+# RUN git config --global user.email "fernando.asulay@gmail.com" && git config --global user.name "Fernando Asulay"
