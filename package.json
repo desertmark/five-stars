@@ -33,6 +33,7 @@
     "@keycloak/keycloak-admin-client": "^16.1.0",
     "apollo-server": "^3.6.0",
     "axios": "^0.24.0",
+    "chalk": "^5.0.0",
     "class-validator": "^0.13.2",
     "dotenv": "^10.0.0",
     "graphql": "^15.8.0",

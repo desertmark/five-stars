@@ -20,7 +20,7 @@ export class TmdbResolver {
     try {
       return await this.tmbdb.searchTv(query, page);
     } catch (error) {
-      console.error("Failed to search tv show", error);
+      console.error("Failed to search tv show", JSON.stringify(error.response.data.errors));
     }
   }
   

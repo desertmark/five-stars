@@ -29,9 +29,9 @@ export const config: IConfig = {
   auth: {
     client_id: "five-stars",
     client_secret: "five-stars-secret",
-    base_url: "http://localhost:8082/auth",
+    base_url: "http://localhost:8080/auth",
     realm_name: "master",
     token_expiration: 60 * 60,
-    issuer_uri: `${"http://localhost:8082/auth"}/realms/${"master"}`,
+    issuer_uri: `${"http://localhost:8080/auth"}/realms/${"master"}`,
   },
 };

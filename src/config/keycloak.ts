@@ -41,7 +41,7 @@ export async function kcAdminClientFactory(config: IConfig) {
   } catch (error) {
     const msg =
       "Error on kcAdminClientFactory: Failed to create openid-client. Verify auth configurations are set or set correctly.";
-    this.logger.error(msg, error);
+    console.error(msg, error);
     throw Error(error);
   }
 }
@@ -60,7 +60,7 @@ export async function openIdClientFactory(
   } catch (error) {
     const msg =
       "Error on openIdClientFactory: Failed to create openid-client. Verify auth configurations are set or set correctly.";
-    this.logger.error(msg, error);
+    console.error(msg, error);
     throw Error(error);
   }
 }
