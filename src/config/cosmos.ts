@@ -20,7 +20,7 @@ export class CosmosManager {
       "WatchLists",
       "/pk"
     );
-    console.log('DB initialized', this);
+    console.log('DB initialized.');
   }
 
   async createDatabase(databaseId: string): Promise<Database> {

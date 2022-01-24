@@ -26,13 +26,14 @@ export class WatchListDal {
     try {
       const response = await this.db.watchLists.items
         .query<WatchListItem>({
-          query: "SELECT * FROM WatchList wl WHERE wl.tvShow.id = *@tvShowId*",
+          query: "SELECT * FROM WatchList wl WHERE wl.tvShow.id = @tvShowId",
           parameters: [{ name: "@tvShowId", value: tvShowId }],
         })
         .fetchAll();
       return response.resources[0];
     } catch (error) {
       console.error("Failed to getShowByTmdbId", tvShowId, error);
+      throw error;
     }
   }
 
