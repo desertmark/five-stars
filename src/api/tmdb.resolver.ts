@@ -13,12 +13,12 @@ export class TmdbResolver {
 
   @Authorized()
   @Query((returns) => TvShowSearchResult, { description: "Search a tv show" })
-  async searchTv(
+  async searchTvShow(
     @Arg("query") query: string,
     @Arg("page") page: number
   ): Promise<TvShowSearchResult> {
     try {
-      return await this.tmbdb.searchTv(query, page);
+      return await this.tmbdb.searchTvShows(query, page);
     } catch (error) {
       console.error("Failed to search tv show", error);
     }
@@ -28,9 +28,9 @@ export class TmdbResolver {
   @Query((returns) => TvShow, {
     description: "Gets a tv show with the given Id",
   })
-  async getTvById(@Arg("tvShowId") tvShowId: number): Promise<TvShow> {
+  async getTvShowById(@Arg("tvShowId") tvShowId: number): Promise<TvShow> {
     try {
-      return await this.tmbdb.getTvById(tvShowId);
+      return await this.tmbdb.getTvShowById(tvShowId);
     } catch (error) {
       console.error("Failed to search tv show", error);
     }

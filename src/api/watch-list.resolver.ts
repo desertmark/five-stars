@@ -5,8 +5,9 @@ import { TvShow, TvShowSearchResult } from "@models/tv-show.model";
 import { Season } from "@models/season.model";
 import { WatchListDal } from "@dal/watch-list.dal";
 import { UserInfoManager } from "@models/user-info.model";
-import { GraphQLJSON, GraphQLVoid } from "graphql-scalars";
 import { WatchListItem } from "@models/watch-list-item.model";
+import { Watcher } from "@models/watcher.model";
+
 @injectable()
 @Resolver(WatchListItem)
 export class WatchListResolver {
@@ -23,21 +24,35 @@ export class WatchListResolver {
   private userInfoManager: UserInfoManager;
   private tmbdb: TmdbDal;
 
+  /**
+   * Imports a tvShow from the movie database to cosmos. 
+   */
+  private async importTvShow(tvShowId: number, userId?: string) {
+    const tvShow = await this.tmbdb.getTvShowById(tvShowId);
+    const seasonRequests = [];
+    for (let season = 1; season <= tvShow.number_of_seasons; season++) {
+      seasonRequests.push(
+        this.tmbdb.getSeason(tvShowId, season),
+      );
+    }
+    const seasons = await Promise.all(seasonRequests);
+    return await this.watchListDal.upsert(
+      new WatchListItem({ tvShow, watchers: [{ userId }], seasons })
+    );
+  }
+
   @Authorized()
   @Query((returns) => WatchListItem, {
     description: "Adds a tv show to the user's watch list",
   })
-  async addShow(@Arg("tvShowId") tvShowId: number): Promise<WatchListItem> {
+  async addTvShow(@Arg("tvShowId") tvShowId: number): Promise<WatchListItem> {
     try {
       const userId = this.userInfoManager.userInfo.userId;
-      const watchListItem = await this.watchListDal.getShowByTmdbId(tvShowId);
+      const watchListItem = await this.watchListDal.getTvShowByTmdbId(tvShowId);
       if (!watchListItem) {
-        const tvShow = await this.tmbdb.getTvById(tvShowId);
-        return await this.watchListDal.upsert(
-          new WatchListItem({ tvShow, userIds: [userId] })
-        );
+        return await this.importTvShow(tvShowId, userId);
       }
-      watchListItem.userIds.push(userId);
+      watchListItem.watchers.push(new Watcher({ userId }));
       return await this.watchListDal.upsert(watchListItem);
     } catch (error) {
       console.error("Failed to add tv show", error);
@@ -46,17 +61,61 @@ export class WatchListResolver {
   }
 
   @Authorized()
-  @Query((returns) => [TvShow], {
+  @Query((returns) => [WatchListItem], {
     description: "Adds a tv show to the user's watch list",
   })
-  async myShows(): Promise<TvShow[]> {
+  async myTvShows(): Promise<WatchListItem[]> {
     try {
       const userId = this.userInfoManager.userInfo.userId;
-      const watchList = await this.watchListDal.getShows(userId);
-      return watchList?.map((wl) => wl.tvShow);
+      return await this.watchListDal.getTvShowsByUserId(userId);
     } catch (error) {
       console.error("Failed to get user's watch list", error);
       throw error;
     }
   }
+
+  @Authorized()
+  @Query((returns) => WatchListItem, {
+    description: "Marks an episode of a tv show as seen by the current user.",
+  })
+  async markAsSeen(
+    @Arg("tvShowId") tvShowId: number,
+    @Arg("seasonNumber") seasonNumber: number,
+    @Arg("episodeNumber") episodeNumber: number
+  ): Promise<WatchListItem> {
+    try {
+      const userId = this.userInfoManager.userInfo.userId;
+      const watchListItem = await this.watchListDal.getTvShowByTmdbId(tvShowId);
+      watchListItem.seasons[seasonNumber].episodes[episodeNumber].watchers.push(new Watcher({ userId }));
+      await this.watchListDal.upsert(watchListItem);
+      return watchListItem;
+    } catch (error) {
+      console.error("Failed to get user's watch list", error);
+      throw error;
+    }
+  }
+
+  @Authorized()
+  @Query((returns) => WatchListItem, {
+    description: "Unmarks an episode of a tv show as seen by the current user.",
+  })
+  async unMarkAsSeen(
+    @Arg("tvShowId") tvShowId: number,
+    @Arg("seasonNumber") seasonNumber: number,
+    @Arg("episodeNumber") episodeNumber: number
+  ): Promise<WatchListItem> {
+    try {
+      const userId = this.userInfoManager.userInfo.userId;
+      const watchListItem = await this.watchListDal.getTvShowByTmdbId(tvShowId);
+
+      watchListItem.seasons[seasonNumber].episodes[episodeNumber].watchers = watchListItem.seasons[seasonNumber].episodes[episodeNumber].watchers.filter(w => w.userId === userId)
+
+      await this.watchListDal.upsert(watchListItem);
+      return watchListItem;
+    } catch (error) {
+      console.error("Failed to get user's watch list", error);
+      throw error;
+    }
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import {Watcher} from './watcher.model';
 @ObjectType()
 export class Season {
   constructor(json: any) {
@@ -39,6 +40,8 @@ export class Episode {
       this.overview = json.overview;
       this.season_number = json.season_number;
       this.vote_average = json.vote_average;
+      this.watchers = json.watchers?.map(w => new Watcher(w));
+
     }
   }
   @Field()
@@ -55,4 +58,5 @@ export class Episode {
   season_number: number;
   @Field()
   vote_average: number;
+  watchers: Watcher[];
 }

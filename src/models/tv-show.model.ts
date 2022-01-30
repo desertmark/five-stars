@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 import { SearchResult } from "./search-result";
+import { Season } from "./season.model";
 
 @ObjectType()
 export class TvShowResult {

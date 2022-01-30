@@ -2,7 +2,6 @@ import { AuthDal } from "@dal/auth.dal";
 import { TokenSets } from "@models/token-set.model";
 import { UserInfo, UserInfoManager } from "@models/user-info.model";
 import { inject, injectable } from "inversify";
-import { userInfo } from "os";
 import { Arg, Authorized, Query, Resolver } from "type-graphql";
 
 @injectable()

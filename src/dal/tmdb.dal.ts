@@ -16,7 +16,7 @@ export class TmdbDal {
     });
   }
 
-  async searchTv(
+  async searchTvShows(
     search: string,
     page: number = 1
   ): Promise<TvShowSearchResult> {
@@ -29,7 +29,7 @@ export class TmdbDal {
     return new TvShowSearchResult(response.data);
   }
 
-  async getTvById(tvShowId: number): Promise<TvShow> {
+  async getTvShowById(tvShowId: number): Promise<TvShow> {
     const response = await this.client.get(`/tv/${tvShowId}`);
     return new TvShow(response.data);
   }
