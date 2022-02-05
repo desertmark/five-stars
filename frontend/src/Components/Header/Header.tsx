@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export const Header: React.FC = () => {
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 0 }} data-id="header">
             <AppBar position="static">
                 <Toolbar>
                     <IconButton

@@ -2,7 +2,7 @@ import { AuthDal } from "@dal/auth.dal";
 import { TokenSets } from "@models/token-set.model";
 import { UserInfo, UserInfoManager } from "@models/user-info.model";
 import { inject, injectable } from "inversify";
-import { Arg, Authorized, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Query, Resolver, Mutation } from "type-graphql";
 
 @injectable()
 @Resolver(TokenSets)
@@ -17,7 +17,7 @@ export class AuthResolver {
   private authDal: AuthDal;
   private userInfoManager: UserInfoManager;
 
-  @Query((returns) => TokenSets, { description: "Get tokens" })
+  @Mutation((returns) => TokenSets, { description: "Get tokens" })
   async login(
     @Arg("username") username: string,
     @Arg("password") password: string

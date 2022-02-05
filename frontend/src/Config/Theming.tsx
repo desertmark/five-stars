@@ -7,12 +7,9 @@ const theme = createTheme({
             main: '#0D47A1',
         },
         secondary: {
-            main: '#EEEEEE',
+            main: '#0D47A1',
         },
         info: pink,
-        text: {
-            secondary: "#FFFFFF"
-        }
     },
 });
 
