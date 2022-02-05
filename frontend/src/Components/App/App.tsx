@@ -1,12 +1,14 @@
 import React from 'react';
-import { Header } from '..';
+import { Header, Layout } from '..';
+import { AppTheme } from '../../Config/Theming';
+import { Login } from '../../Views';
 
 export function App() {
   return (
-    <div className="App">
+    <Layout>
       <Header />
-      <h1>asd</h1>
-    </div>
+      <Login />
+    </Layout>
   );
 }
 

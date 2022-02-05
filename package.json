@@ -5,6 +5,9 @@
   "repository": "https://github.com/desertmark/five-stars",
   "author": "Fernando Asulay <fernando.asulay@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "fe": "cd frontend && npm start"
+  },
   "workspaces": [
     "backend",
     "frontend"
