@@ -1,7 +1,9 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-
+export interface LoginResponse {
+  access_token: string;
+}
 export const useLogin = () => {
-  return useMutation(
+  return useMutation<{login: LoginResponse}>(
     gql`
       mutation login($username: String!, $password: String!) {
         login(username: $username, password: $password) {

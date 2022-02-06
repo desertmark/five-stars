@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
-import { View } from "./index";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 import {
   Button,
   Card,
@@ -7,15 +8,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useLogin } from "../gql/login.api";
+import { View } from "./index";
+import { LoginResponse, useLogin } from "../gql/login.api";
+import { useAppState } from '../Components/App/AppContext';
+
 
 export const Login: FC = () => {
   const [form, setForm] = useState<{ username?: string; password?: string }>(
     {}
   );
 
-  const [login, { data }] = useLogin();
-
+  const [login, { data, loading }] = useLogin();
+  const { setUserInfo } = useAppState();
   return (
     <View
       styles={{
@@ -52,14 +56,20 @@ export const Login: FC = () => {
             sx={{ mt: 2 }}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
-          <Button
-            onClick={() => login({ variables: form })}
+          <LoadingButton
+            loading={loading}
+            loadingPosition="end"
+            onClick={async () => {
+              const { data } = await login({ variables: form });
+              setUserInfo(data?.login as LoginResponse)
+            }}
             fullWidth={true}
             variant="contained"
             sx={{ mt: 3 }}
           >
             Login
-          </Button>
+          </LoadingButton>
+
         </CardContent>
       </Card>
     </View>

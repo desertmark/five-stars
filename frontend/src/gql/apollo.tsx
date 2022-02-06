@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 export const ApolloClientProvider: FC = ({ children }) => {
   const client = new ApolloClient({
-    uri: "http://localhost:4001/graphql",
+    uri: "http://localhost:4001",
     cache: new InMemoryCache(),
   });
 

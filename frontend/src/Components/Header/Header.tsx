@@ -5,8 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useAppState } from '../App/AppContext';
 
 export const Header: React.FC = () => {
+    const {userInfo} = useAppState();
     return (
         <Box sx={{ flexGrow: 0 }} data-id="header">
             <AppBar position="static">
@@ -22,6 +24,15 @@ export const Header: React.FC = () => {
                     </IconButton>
                     <Typography align='left' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Five Stars
+                    </Typography>
+                    <Typography align='right' variant="h6" component="div" sx={{ flexGrow: 0 }}>
+                        {userInfo?.name}
+                    </Typography>
+                    <Typography align='right'  component="div" sx={{ flexGrow: 0, ml: 1 }}>
+                        |
+                    </Typography>
+                    <Typography align='right'  component="div" sx={{ flexGrow: 0, ml: 1 }}>
+                        {userInfo?.email}
                     </Typography>
                 </Toolbar>
             </AppBar>

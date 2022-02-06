@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Header, Layout } from '..';
-import { AppTheme } from '../../Config/Theming';
 import { Login } from '../../Views';
+import { AppProvider } from './AppContext';
 
-export function App() {
+
+export const App: FC = () => {
   return (
-    <Layout>
-      <Header />
-      <Login />
-    </Layout>
+    <AppProvider>
+      <Layout>
+        <Header />
+        <Login />
+      </Layout>
+    </AppProvider>
   );
 }
 
