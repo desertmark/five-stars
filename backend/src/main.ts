@@ -15,7 +15,7 @@ import { CosmosManager } from "@config/cosmos";
       plugins: [new RequestPlugin()],
     });
     await container.get(CosmosManager).init();
-    const { url } = await server.listen({ port: 4001 });
+    const { url } = await server.listen({ port: 4002 });
     console.log(`🚀  Server ready at ${url}`);
   } catch (error) {
     console.error("Failed to start server", error);

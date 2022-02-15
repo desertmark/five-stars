@@ -50,4 +50,16 @@ export class TmdbResolver {
       console.error("Failed to search tv show", error);
     }
   }
+
+  @Query((returns) => TvShowSearchResult, {
+    description: "Gets the daily trending tv shows",
+  })
+  async getTrending(): Promise<TvShowSearchResult> {
+    try {
+      const results =  await this.tmbdb.getTrending();
+      return results;
+    } catch (error) {
+      console.error("Failed to search trending tv shows", error);
+    }
+  }
 }

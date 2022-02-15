@@ -4,6 +4,11 @@ import { TvShow, TvShowSearchResult } from "@models/tv-show.model";
 import axios, { AxiosInstance } from "axios";
 import { inject, injectable } from "inversify";
 
+export enum TmdbTimeWindow {
+  Day = 'day',
+  Week = 'week'
+}
+
 @injectable()
 export class TmdbDal {
   private client: AxiosInstance;
@@ -39,5 +44,12 @@ export class TmdbDal {
       `/tv/${tvShowId}/season/${seasonNumber}`
     );
     return new Season(response.data);
+  }
+
+  async getTrending(timeWindow: TmdbTimeWindow = TmdbTimeWindow.Day): Promise<TvShowSearchResult> {
+    const response = await this.client.get(
+      `/trending/tv/${timeWindow}`,
+    );
+    return new TvShowSearchResult(response.data);
   }
 }

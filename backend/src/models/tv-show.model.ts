@@ -10,6 +10,7 @@ export class TvShowResult {
       this.name = json.name;
       this.overview = json.overview;
       this.poster_path = json.poster_path;
+      this.backdrop_path = json.backdrop_path;
       this.vote_average = json.vote_average;
     }
   }
@@ -34,6 +35,11 @@ export class TvShowResult {
   @Field({ nullable: true })
   poster_path?: string;
   /**
+   *eg:  "/7vjaCdMw15FEbXyLQTVa04URsPm.jpg"
+   */
+  @Field({ nullable: true })
+  backdrop_path?: string;
+  /**
    *eg:  8.2
    */
   @Field({ nullable: true })
@@ -53,4 +59,4 @@ export class TvShow extends TvShowResult {
 }
 
 @ObjectType()
-export class TvShowSearchResult extends SearchResult(TvShowResult) {}
+export class TvShowSearchResult extends SearchResult(TvShowResult) { }
