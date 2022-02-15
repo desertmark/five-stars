@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 import {
   Button,
   Card,
@@ -10,16 +9,29 @@ import {
 } from "@mui/material";
 import { View } from "./index";
 import { LoginResponse, useLogin } from "../gql/login.api";
-import { useAppState } from '../Components/App/AppContext';
+import { useAppState, TextInput } from '../Components';
+import { useFormik } from "formik";
 
+export interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
+const defaultLoginValues: LoginFormValues = {
+  username: '',
+  password: '',
+}
 
 export const Login: FC = () => {
-  const [form, setForm] = useState<{ username?: string; password?: string }>(
-    {}
-  );
-
   const [login, { data, loading }] = useLogin();
   const { setUserInfo } = useAppState();
+  const formik = useFormik<LoginFormValues>({
+    initialValues: defaultLoginValues,
+    async onSubmit(values) {
+      const { data } = await login({ variables: values });
+      setUserInfo(data?.login as LoginResponse)
+    }
+  });
   return (
     <View
       styles={{
@@ -30,7 +42,7 @@ export const Login: FC = () => {
       <Card
         sx={{
           minWidth: 275,
-          width: "50%",
+          width: 600,
           display: "flex",
           flexDirection: "column",
           p: 3,
@@ -38,34 +50,21 @@ export const Login: FC = () => {
         data-id="login-card"
       >
         <CardContent sx={{ flexDirection: "column", display: "flex" }}>
-          <Typography variant="h5" component="div">
-            Login
+          <Typography variant="h3" component="div">
+            Welcome to Five Stars
           </Typography>
-          <TextField
-            id="outlined-basic"
-            label="Username or email"
-            variant="outlined"
-            sx={{ mt: 2 }}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Password"
-            variant="outlined"
-            type="password"
-            sx={{ mt: 2 }}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
+          <Typography variant="h5" component="div">
+            Please log in before continuing
+          </Typography>
+          <TextInput name="username" label="Username or email" formik={formik} />
+          <TextInput name="password" label="Password" type="password" formik={formik} />
           <LoadingButton
             loading={loading}
             loadingPosition="end"
-            onClick={async () => {
-              const { data } = await login({ variables: form });
-              setUserInfo(data?.login as LoginResponse)
-            }}
+            onClick={() => formik.submitForm()}
             fullWidth={true}
             variant="contained"
-            sx={{ mt: 3 }}
+            sx={{ mt: 4 }}
           >
             Login
           </LoadingButton>
