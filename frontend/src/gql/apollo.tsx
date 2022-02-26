@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 export const ApolloClientProvider: FC = ({ children }) => {
   const client = new ApolloClient({
-    uri: "http://localhost:4001",
+    uri: "http://localhost:4002",
     cache: new InMemoryCache(),
   });
 

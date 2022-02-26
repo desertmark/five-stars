@@ -5,6 +5,7 @@ import { schema as buildSchema } from "@config/schema";
 import { RequestPlugin } from "@config/plugins";
 import { createContainer } from "@config/container";
 import { CosmosManager } from "@config/cosmos";
+import { TmdbDal } from "@dal/tmdb.dal";
 
 (async () => {
   try {
@@ -15,6 +16,7 @@ import { CosmosManager } from "@config/cosmos";
       plugins: [new RequestPlugin()],
     });
     await container.get(CosmosManager).init();
+    // await container.get(TmdbDal).getConfig();
     const { url } = await server.listen({ port: 4002 });
     console.log(`🚀  Server ready at ${url}`);
   } catch (error) {

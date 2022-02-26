@@ -1,0 +1,32 @@
+.carousel-slide {
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    overflow: hidden;
+}
+.carousel-slide__overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    transition: all .3s;
+}
+
+.carousel-slide__overlay:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-slide-overlay__content {
+    padding: 1rem;
+    margin-bottom: 4rem;
+    opacity:0;
+    transition: all .3s;
+}
+
+.carousel-slide-overlay__content:hover {
+    opacity: 1;
+}
+
+.carousel-slide__description {
+    margin-top: 1rem;
+}

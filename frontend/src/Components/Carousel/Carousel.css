@@ -1,0 +1,40 @@
+.carousel {
+    width: 100%;
+    position: relative;
+}
+
+.carousel__wrapper {
+    width: 100%;
+    overflow: auto;
+  /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.carousel__wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel__slides-container {
+    display: inline-flex;
+}
+
+.carousel_dots-container {
+    display: flex;
+    justify-content: center;
+    bottom: 5%;
+    width: 100%;
+    left: 0%;
+    position: absolute;
+}
+
+.carousel-dots-container__dot {
+    background-color: #ccc;
+    border-radius: 50%;
+    width: .5rem;
+    height: .5rem;
+    margin: .25rem;
+}
+.carousel-dots-container__dot--active {
+    background-color: white;
+}

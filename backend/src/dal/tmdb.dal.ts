@@ -52,4 +52,12 @@ export class TmdbDal {
     );
     return new TvShowSearchResult(response.data);
   }
+
+  async getConfig(): Promise<any> {
+    const response = await this.client.get(
+      `/configuration`,
+    );
+    console.log(response.data);
+    response.data;
+  }
 }

@@ -1,15 +1,23 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, QueryResult } from "@apollo/client";
 export interface LoginResponse {
   access_token: string;
 }
-export const useLogin = () => {
-  return useQuery<{login: LoginResponse}>(
+export const useGetTrending = (): QueryResult => {
+  return useQuery(
     gql`
-      query {
+      query getTrending {
         getTrending {
-          
+          page
+          results {
+            id
+            name
+            overview
+            poster_path
+            vote_average
+            backdrop_path
+          }
         }
       }
-    `
+    `,
   );
 };
