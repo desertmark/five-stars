@@ -10,7 +10,7 @@ export const Layout: React.FC = ({ children }) => {
         <Box
           data-id="layout"
           sx={{
-            backgroundColor: "#333",
+            backgroundColor: "#ccc",
             width: "100%",
             height: "100%",
             display: "flex",
