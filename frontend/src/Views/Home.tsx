@@ -2,14 +2,24 @@ import React, { FC } from "react";
 import { View } from "./index";
 import { useGetTrending } from "../gql/home.api";
 import { Carousel, CarouselSlide } from '../Components'
-import { Box } from "@mui/material";
+import { Box, Card, CardContent, TextField, Typography } from "@mui/material";
+import { LiveTv } from '@mui/icons-material';
+
+const styles = {
+    contentWrapper: {
+        display: 'flex', justifyContent: 'center',
+    },
+    content: {
+        width: 1280
+    }
+};
 export const Home: FC = () => {
     const { data } = useGetTrending();
     const trendings = data?.getTrending?.results as any[];
     return (
         <View>
-            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-                <Box sx={{ width: 1280 }}>
+            <Box sx={styles.contentWrapper}>
+                <Box sx={styles.content}>
                     <Carousel>
                         {
                             trendings?.map(trending => <CarouselSlide
@@ -22,10 +32,27 @@ export const Home: FC = () => {
                             />)
                         }
                     </Carousel>
+                    <Box mt={2}>
+
+                        <Card>
+                            <CardContent>
+                                <Box sx={{ display: 'flex' }}>
+                                    <LiveTv color="primary" fontSize="large" />
+                                    <Typography color="primary" fontSize={27} component="div" ml={2}>
+                                        Search for a TV Show
+                                    </Typography>
+                                </Box>
+                                <Box mt={2}>
+                                    <TextField fullWidth placeholder="Search for a TV Show" variant="outlined" />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Box>
                 </Box>
             </Box>
 
-            <h1>{JSON.stringify(data?.getTrending?.results)}</h1>
+
+
         </View>
     );
 };

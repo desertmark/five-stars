@@ -11,20 +11,19 @@
     height: 100%;
     transition: all .3s;
 }
-
-.carousel-slide__overlay:hover {
+.carousel-slide:hover .carousel-slide__overlay  {
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-slide:hover .carousel-slide-overlay__content {
+    opacity: 1;
 }
 
 .carousel-slide-overlay__content {
     padding: 1rem;
     margin-bottom: 4rem;
-    opacity:0;
+    opacity: 0;
     transition: all .3s;
-}
-
-.carousel-slide-overlay__content:hover {
-    opacity: 1;
 }
 
 .carousel-slide__description {
