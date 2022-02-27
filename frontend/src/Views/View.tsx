@@ -1,18 +1,24 @@
+import { Box } from "@mui/system";
 import React, { FC } from "react";
-import { Box, SxProps, Theme } from "@mui/material";
-import { RouteProps } from 'react-router-dom';
-export type ViewProps = { styles?: SxProps<Theme> } & RouteProps;
-
-export const View: FC<ViewProps> = ({ children, styles }) => (
-  <Box
-    data-id="view"
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      minHeight: "100%",
-      ...styles,
-    }}
-  >
-    {children}
-  </Box>
+import { BaseViewProps, BaseView } from ".";
+export type ViewProps = BaseViewProps;
+const styles = {
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+    flexGrow: 1,
+  },
+  content: {
+    width: 1280,
+    display: "flex",
+    flexDirection: "column",
+    pb: 2
+  },
+};
+export const View: FC<ViewProps> = ({ children }) => (
+  <BaseView>
+    <Box data-id="view" sx={styles.wrapper}>
+      <Box sx={styles.content}>{children}</Box>
+    </Box>
+  </BaseView>
 );

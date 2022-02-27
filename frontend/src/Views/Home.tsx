@@ -1,58 +1,68 @@
-import React, { FC } from "react";
-import { View } from "./index";
-import { useGetTrending } from "../gql/home.api";
-import { Carousel, CarouselSlide } from '../Components'
+import React, { FC, useState } from "react";
+import { BaseView, View } from "./index";
+import { ITvShow, useGetTrending, useSearch } from "../gql/home.api";
+import { Carousel, CarouselSlide, TvShow } from "../Components";
 import { Box, Card, CardContent, TextField, Typography } from "@mui/material";
-import { LiveTv } from '@mui/icons-material';
+import { LiveTv } from "@mui/icons-material";
+import { useConfig } from "../gql/config.api";
 
-const styles = {
-    contentWrapper: {
-        display: 'flex', justifyContent: 'center',
-    },
-    content: {
-        width: 1280
-    }
-};
 export const Home: FC = () => {
-    const { data } = useGetTrending();
-    const trendings = data?.getTrending?.results as any[];
-    return (
-        <View>
-            <Box sx={styles.contentWrapper}>
-                <Box sx={styles.content}>
-                    <Carousel>
-                        {
-                            trendings?.map(trending => <CarouselSlide
-                                key={trending.name + Math.random()}
-                                height='720px'
-                                url={`http://image.tmdb.org/t/p/w1280/${trending.backdrop_path}`}
-                                overlay={true}
-                                title={trending.name || trending.title}
-                                description={trending.overview}
-                            />)
-                        }
-                    </Carousel>
-                    <Box mt={2}>
+  const [searchResults, setSearchResults] = useState<any>();
+  const { data: configData } = useConfig();
+  const { data: trendingData } = useGetTrending();
+  const { refetch: searchTvShows } = useSearch({ skip: true });
 
-                        <Card>
-                            <CardContent>
-                                <Box sx={{ display: 'flex' }}>
-                                    <LiveTv color="primary" fontSize="large" />
-                                    <Typography color="primary" fontSize={27} component="div" ml={2}>
-                                        Search for a TV Show
-                                    </Typography>
-                                </Box>
-                                <Box mt={2}>
-                                    <TextField fullWidth placeholder="Search for a TV Show" variant="outlined" />
-                                </Box>
-                            </CardContent>
-                        </Card>
-                    </Box>
-                </Box>
-            </Box>
+  const trendings = trendingData?.getTrending?.results as any[];
+  const config = configData.getConfig;
 
+  const handleSearch = async (event: any) => {
+    const value = event?.target?.value;
+    const { data } = await searchTvShows({
+      query: value,
+      page: 1,
+    });
+    setSearchResults(data?.searchTvShow?.results);
+  };
 
-
-        </View>
-    );
+  return (
+    <View>
+      <Carousel>
+        {trendings?.map((trending) => (
+          <CarouselSlide
+            key={trending.name + Math.random()}
+            height="720px"
+            url={`${config.imageBaseUrl}${trending.backdrop_path}`}
+            overlay={true}
+            title={trending.name || trending.title}
+            description={trending.overview}
+          />
+        ))}
+      </Carousel>
+      <Card
+        sx={{ mt: 2, flexGrow: 1, display: "flex", flexDirection: "column" }}
+      >
+        <CardContent>
+          <Box sx={{ display: "flex" }}>
+            <LiveTv color="primary" fontSize="large" />
+            <Typography color="primary" fontSize={27} component="div" ml={2}>
+              Search for a TV Show
+            </Typography>
+          </Box>
+          <Box mt={2}>
+            <TextField
+              onChange={handleSearch}
+              fullWidth
+              placeholder="Search for a TV Show"
+              variant="outlined"
+            />
+          </Box>
+          <Box>
+            {searchResults?.map((sr: ITvShow) => (
+              <TvShow tvShow={sr} key={sr.id} />
+            ))}
+          </Box>
+        </CardContent>
+      </Card>
+    </View>
+  );
 };

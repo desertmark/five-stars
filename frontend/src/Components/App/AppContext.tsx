@@ -1,6 +1,6 @@
 import React, { FC, createContext, useContext, useEffect } from 'react';
 import { useState } from 'react';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { LoginResponse } from '../../gql/login.api';
 const ACCESS_TOKEN_LS_KEY = 'access_token';
 

@@ -1,0 +1,20 @@
+.media {
+    width: 10rem;
+}
+
+.media__poster {
+    height: 14rem;
+    width: 10rem;
+    background-size: contain;
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.media-poster__rating {
+    margin: 0.5rem;
+}
+
+.media-poster__rating > div {
+    text-shadow: 1px 1px 2px black;
+}

@@ -1,13 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
-  Button,
   Card,
   CardContent,
-  TextField,
   Typography,
 } from "@mui/material";
-import { View } from "./index";
+import { BaseView } from "./index";
 import { LoginResponse, useLogin } from "../gql/login.api";
 import { useAppState, TextInput } from '../Components';
 import { useFormik } from "formik";
@@ -23,7 +21,7 @@ const defaultLoginValues: LoginFormValues = {
 }
 
 export const Login: FC = () => {
-  const [login, { data, loading }] = useLogin();
+  const [login, { loading }] = useLogin();
   const { setUserInfo } = useAppState();
   const formik = useFormik<LoginFormValues>({
     initialValues: defaultLoginValues,
@@ -33,7 +31,7 @@ export const Login: FC = () => {
     }
   });
   return (
-    <View
+    <BaseView
       styles={{
         alignItems: "center",
         justifyContent: "center",
@@ -71,6 +69,6 @@ export const Login: FC = () => {
 
         </CardContent>
       </Card>
-    </View>
+    </BaseView>
   );
 };
